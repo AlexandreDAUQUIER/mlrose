@@ -13,12 +13,10 @@ from .decay import GeomDecay
 
 def flatten_weights(weights):
     """Flatten list of weights arrays into a 1D array.
-
     Parameters
     ----------
     weights: list of arrays
         List of 2D arrays for flattening.
-
     Returns
     -------
     flat_weights: array
@@ -36,16 +34,13 @@ def flatten_weights(weights):
 
 def unflatten_weights(flat_weights, node_list):
     """Convert 1D weights array into list of 2D arrays.
-
     Parameters
     ----------
     flat_weights: array
         1D weights array.
-
     node_list: list
         List giving the number of nodes in each layer of the network,
         including the input and output layers.
-
     Returns
     -------
     weights: list of arrays
@@ -73,27 +68,21 @@ def unflatten_weights(flat_weights, node_list):
 def gradient_descent(problem, max_attempts=10, max_iters=np.inf,
                      init_state=None):
     """Use gradient_descent to find the optimal neural network weights.
-
     Parameters
     ----------
     problem: optimization object
         Object containing optimization problem to be solved.
-
     max_attempts: int, default: 10
         Maximum number of attempts to find a better state at each step.
-
     max_iters: int, default: np.inf
         Maximum number of iterations of the algorithm.
-
     init_state: array, default: None
         Numpy array containing starting state for algorithm.
         If None, then a random state is used.
-
     Returns
     -------
     best_state: array
         Numpy array containing state that optimizes fitness function.
-
     best_fitness: float
         Value of fitness function at best state.
     """
@@ -145,28 +134,22 @@ def gradient_descent(problem, max_attempts=10, max_iters=np.inf,
 
 class NetworkWeights:
     """Fitness function for neural network weights optimization problem.
-
     Parameters
     ----------
     X: array
         Numpy array containing feature dataset with each row representing a
         single observation.
-
     y: array
         Numpy array containing true values of data labels.
         Length must be same as length of X.
-
     node_list: list of ints
         Number of nodes in each layer, including the input and output layers.
-
     activation: callable
         Activation function for each of the hidden layers with the signature
         :code:`activation(x, deriv)`, where setting deriv is a boolean that
         determines whether to return the activation function or its derivative.
-
     bias: bool, default: True
         Whether a bias term is included in the network.
-
     is_classifer: bool, default: True
         Whether the network is for classification orregression. Set True for
         classification and False for regression.
@@ -239,12 +222,10 @@ class NetworkWeights:
 
     def evaluate(self, state):
         """Evaluate the fitness of a state.
-
         Parameters
         ----------
         state: array
             State array for evaluation.
-
         Returns
         -------
         fitness: float
@@ -283,7 +264,6 @@ class NetworkWeights:
 
     def get_output_activation(self):
         """ Return the activation function for the output layer.
-
         Returns
         -------
         self.output_activation: callable
@@ -293,7 +273,6 @@ class NetworkWeights:
 
     def get_prob_type(self):
         """ Return the problem type.
-
         Returns
         -------
         self.prob_type: string
@@ -304,7 +283,6 @@ class NetworkWeights:
 
     def calculate_updates(self):
         """Calculate gradient descent updates.
-
         Returns
         -------
         updates_list: list
@@ -340,68 +318,52 @@ class NetworkWeights:
 
 class NeuralNetwork:
     """Class for defining neural network weights optimization problem.
-
     Parameters
     ----------
     hidden_nodes: list of ints
         List giving the number of nodes in each hidden layer.
-
     activation: string, default: 'relu'
         Activation function for each of the hidden layers. Must be one of:
         'identity', 'relu', 'sigmoid' or 'tanh'.
-
     algorithm: string, default: 'random_hill_climb'
         Algorithm used to find optimal network weights. Must be one
         of:'random_hill_climb', 'simulated_annealing', 'genetic_alg' or
         'gradient_descent'.
-
     max_iters: int, default: 100
         Maximum number of iterations used to fit the weights.
-
     bias: bool, default: True
         Whether to include a bias term.
-
     is_classifer: bool, default: True
         Whether the network is for classification or regression. Set
         :code:`True` for classification and :code:`False` for regression.
-
     learning_rate: float, default: 0.1
         Learning rate for gradient descent or step size for randomized
         optimization algorithms.
-
     early_stopping: bool, default: False
         Whether to terminate algorithm early if the loss is not improving.
         If :code:`True`, then stop after max_attempts iters with no
         improvement.
-
     clip_max: float, default: 1e+10
         Used to limit weights to the range [-1*clip_max, clip_max].
-
     schedule: schedule object, default = mlrose.GeomDecay()
         Schedule used to determine the value of the temperature parameter.
         Only required if :code:`algorithm = 'simulated_annealing'`.
-
     pop_size: int, default: 200
         Size of population. Only required if :code:`algorithm = 'genetic_alg'`.
-
     mutation_prob: float, default: 0.1
         Probability of a mutation at each element of the state vector during
         reproduction, expressed as a value between 0 and 1. Only required if
         :code:`algorithm = 'genetic_alg'`.
-
     max_attempts: int, default: 10
         Maximum number of attempts to find a better state. Only required if
         :code:`early_stopping = True`.
-
     Attributes
     ----------
     fitted_weights: array
         Numpy array giving the fitted weights when :code:`fit` is performed.
-
     loss: float
         Value of loss function for fitted weights when :code:`fit` is
         performed.
-
     predicted_probs: array
         Numpy array giving the predicted probabilities for each class when
         :code:`predict` is performed for multi-class classification data; or
@@ -488,17 +450,14 @@ class NeuralNetwork:
 
     def fit(self, X, y, init_weights=None):
         """Fit neural network to data.
-
         Parameters
         ----------
         X: array
             Numpy array containing feature dataset with each row
             representing a single observation.
-
         y: array
             Numpy array containing data labels. Length must be same as
             length of X.
-
         init_state: array, default: None
             Numpy array containing starting weights for algorithm.
             If :code:`None`, then a random state is used.
@@ -575,13 +534,11 @@ class NeuralNetwork:
 
     def predict(self, X):
         """Use model to predict data labels for given feature array.
-
         Parameters
         ----------
         X: array
             Numpy array containing feature dataset with each row
             representing a single observation.
-
         Returns
         -------
         y_pred: array
@@ -625,58 +582,77 @@ class NeuralNetwork:
 
         return y_pred
 
+    def get_params(self, deep=True):
+        params = {'hidden_nodes':self.hidden_nodes, 'max_iters':self.max_iters, 
+            'bias':self.bias, 'is_classifier':self.is_classifier, 
+            'learning_rate':self.lr, 'early_stopping':self.early_stopping, 
+            'clip_max':self.clip_max, 'schedule':self.schedule, 
+            'pop_size':self.pop_size, 'mutation_prob':self.mutation_prob}
+        
+        return params
+
+    def set_params(self, **in_params):
+        if 'hidden_nodes' in in_params.keys():
+            self.hidden_nodes = in_params['hidden_nodes']
+        if 'max_iters' in in_params.keys():
+            self.max_iters = in_params['max_iters']
+        if 'bias' in in_params.keys():
+            self.bias = in_params['bias']
+        if 'is_classifier' in in_params.keys():
+            self.is_classifier = in_params['is_classifier']
+        if 'learning_rate' in in_params.keys():
+            self.lr = in_params['learning_rate']
+        if 'early_stopping' in in_params.keys():
+            self.early_stopping = in_params['early_stopping']
+        if 'clip_max' in in_params.keys():
+            self.clip_max = in_params['clip_max']
+        if 'schedule' in in_params.keys():
+            self.schedule = in_params['schedule']
+        if 'pop_size' in in_params.keys():
+            self.pop_size = in_params['pop_size']
+        if 'mutation_prob' in in_params.keys():
+            self.mutation_prob = in_params['mutation_prob']
+    
 
 class LinearRegression(NeuralNetwork):
     """Class for defining linear regression weights optimization
     problem. Inherits :code:`fit` and :code:`predict` methods from
     :code:`NeuralNetwork()` class.
-
     Parameters
     ----------
     algorithm: string, default: 'random_hill_climb'
         Algorithm used to find optimal network weights. Must be one
         of:'random_hill_climb', 'simulated_annealing', 'genetic_alg' or
         'gradient_descent'.
-
     max_iters: int, default: 100
         Maximum number of iterations used to fit the weights.
-
     bias: bool, default: True
         Whether to include a bias term.
-
     learning_rate: float, default: 0.1
         Learning rate for gradient descent or step size for randomized
         optimization algorithms.
-
     early_stopping: bool, default: False
         Whether to terminate algorithm early if the loss is not improving.
         If :code:`True`, then stop after max_attempts iters with no
         improvement.
-
     clip_max: float, default: 1e+10
         Used to limit weights to the range [-1*clip_max, clip_max].
-
     schedule: schedule object, default = mlrose.GeomDecay()
         Schedule used to determine the value of the temperature parameter.
         Only required if :code:`algorithm = 'simulated_annealing'`.
-
     pop_size: int, default: 200
         Size of population. Only required if :code:`algorithm = 'genetic_alg'`.
-
     mutation_prob: float, default: 0.1
         Probability of a mutation at each element of the state vector during
         reproduction, expressed as a value between 0 and 1. Only required if
         :code:`algorithm = 'genetic_alg'`.
-
     max_attempts: int, default: 10
         Maximum number of attempts to find a better state. Only required if
         :code:`early_stopping = True`.
-
     Attributes
     ----------
     fitted_weights: array
         Numpy array giving the fitted weights when :code:`fit` is performed.
-
     loss: float
         Value of loss function for fitted weights when :code:`fit` is
         performed.
@@ -700,53 +676,41 @@ class LogisticRegression(NeuralNetwork):
     """Class for defining logistic regression weights optimization
     problem. Inherits :code:`fit` and :code:`predict` methods from
     :code:`NeuralNetwork()` class.
-
     Parameters
     ----------
     algorithm: string, default: 'random_hill_climb'
         Algorithm used to find optimal network weights. Must be one
         of:'random_hill_climb', 'simulated_annealing', 'genetic_alg' or
         'gradient_descent'.
-
     max_iters: int, default: 100
         Maximum number of iterations used to fit the weights.
-
     bias: bool, default: True
         Whether to include a bias term.
-
     learning_rate: float, default: 0.1
         Learning rate for gradient descent or step size for randomized
         optimization algorithms.
-
     early_stopping: bool, default: False
         Whether to terminate algorithm early if the loss is not improving.
         If :code:`True`, then stop after max_attempts iters with no
         improvement.
-
     clip_max: float, default: 1e+10
         Used to limit weights to the range [-1*clip_max, clip_max].
-
     schedule: schedule object, default = mlrose.GeomDecay()
         Schedule used to determine the value of the temperature parameter.
         Only required if :code:`algorithm = 'simulated_annealing'`.
-
     pop_size: int, default: 200
         Size of population. Only required if :code:`algorithm = 'genetic_alg'`.
-
     mutation_prob: float, default: 0.1
         Probability of a mutation at each element of the state vector during
         reproduction, expressed as a value between 0 and 1. Only required if
         :code:`algorithm = 'genetic_alg'`.
-
     max_attempts: int, default: 10
         Maximum number of attempts to find a better state. Only required if
         :code:`early_stopping = True`.
-
     Attributes
     ----------
     fitted_weights: array
         Numpy array giving the fitted weights when :code:`fit` is performed.
-
     loss: float
         Value of loss function for fitted weights when :code:`fit` is
         performed.
@@ -763,4 +727,4 @@ class LogisticRegression(NeuralNetwork):
             is_classifier=True, learning_rate=learning_rate,
             early_stopping=early_stopping, clip_max=clip_max,
             schedule=schedule, pop_size=pop_size, mutation_prob=mutation_prob,
-            max_attempts=max_attempts)
+max_attempts=max_attempts)
