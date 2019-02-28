@@ -95,10 +95,13 @@ def softmax(x):
     fx: array
         Value of activation function at x
         fx = np.exp(x)/np.reshape(np.sum(np.exp(x), axis=1), [len(x), 1])
+        or
         fx = 1/(1+np.exp(-x))/np.reshape(np.sum(1/(1+np.exp(-x)), axis=1), [len(x), 1])
-    """
-    temp=[np.exp(list - np.max(list)) for list in x]
+        or
+        temp=[np.exp(list - np.max(list)) for list in x]
     fx=[list / list.sum() for list in temp]
+    """
+    fx = np.exp(x)/np.reshape(np.sum(np.exp(x), axis=1), [len(x), 1])
 
     return fx
 
